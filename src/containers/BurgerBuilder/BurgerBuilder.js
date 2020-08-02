@@ -1,16 +1,73 @@
-import React, { Component } from 'react';
-import EnclosingWrapper from '../../hoc/EnclosingWrapper'
-import Burger from '../../components/Burger/Burger';
+import React, { Component } from "react";
+import EnclosingWrapper from "../../hoc/EnclosingWrapper";
+import Burger from "../../components/Burger/Burger";
+import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+
+const INGREDIENT_PRICES = {
+  salad: 0.5,
+  cheese: 0.4,
+  meat: 1.3,
+  bacon: 0.7
+}
 
 class BurgerBuilder extends Component {
-    render() {
-        return (
-            <EnclosingWrapper>
-                <Burger/>
-                <div>Build Controls</div>
-            </EnclosingWrapper>            
-        );
+  state = {
+    ingredients: {
+      salad: 0,
+      bacon: 0,
+      cheese: 0,
+      meat: 0,
+    },
+    totalPrice: 4
+  };
+
+  addIngredientHandler = (type) => {    
+    const updatedIngredients = {
+      ...this.state.ingredients
+    };
+    updatedIngredients[type] = this.state.ingredients[type] + 1;
+    const updatedTotalPrice = this.state.totalPrice + INGREDIENT_PRICES[type]
+    this.setState({
+      ingredients: updatedIngredients,
+      totalPrice: updatedTotalPrice
+    })
+  }
+
+  removeIngredientHandler = (type) => {
+    const updatedIngredients = {
+      ...this.state.ingredients
+    };
+    if (updatedIngredients[type] > 0) {
+      updatedIngredients[type] = this.state.ingredients[type] - 1;
+      const updatedTotalPrice = this.state.totalPrice - INGREDIENT_PRICES[type]
+      this.setState({
+        ingredients: updatedIngredients,
+        totalPrice: updatedTotalPrice
+      })
     }
+  }
+
+  render() {
+    const disabledInfo = {
+      ...this.state.ingredients
+    }
+
+    for (let key in disabledInfo) {
+      disabledInfo[key] = disabledInfo[key] <=0
+    }
+
+    return (
+      <EnclosingWrapper>
+        <Burger ingredients={this.state.ingredients} />
+        <BuildControls 
+          ingredientsAdded={this.addIngredientHandler} 
+          ingredientsRemoved={this.removeIngredientHandler}          
+          disabledInfo={disabledInfo}
+          price={this.state.totalPrice}>            
+        </BuildControls>
+      </EnclosingWrapper>
+    );
+  }
 }
 
 export default BurgerBuilder;
