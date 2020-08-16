@@ -1,5 +1,5 @@
 import React from 'react';
-import EnclosingWrapper from '../../../hoc/EnclosingWrapper';
+import EnclosingWrapper from '../../../hoc/EnclosingWrapper/EnclosingWrapper';
 
 import Button from '../../UI/Button/Button';
 

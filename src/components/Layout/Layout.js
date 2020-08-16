@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import EnclosingWrapper from '../../hoc/EnclosingWrapper';
+import EnclosingWrapper from '../../hoc/EnclosingWrapper/EnclosingWrapper';
 import Toolbar from '../Navigation/Toolbar/Toolbar';
 import classes from './Layout.module.css';
 import SideDrawer from '../Navigation/SideDrawer/SideDrawer';
