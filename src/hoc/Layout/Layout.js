@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import EnclosingWrapper from '../../hoc/EnclosingWrapper/EnclosingWrapper';
-import Toolbar from '../Navigation/Toolbar/Toolbar';
+import { connect } from 'react-redux';
 import classes from './Layout.module.css';
-import SideDrawer from '../Navigation/SideDrawer/SideDrawer';
+
+import EnclosingWrapper from '../EnclosingWrapper/EnclosingWrapper';
+import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
+import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
 class Layout extends Component {
   state = {
@@ -22,8 +24,12 @@ class Layout extends Component {
   render() {
     return (
       <EnclosingWrapper>
-        <Toolbar drawerToggleclicked={this.sideDrawerToggleHandler} />
+        <Toolbar
+          isAuth={this.props.isAuthenticated}
+          drawerToggleclicked={this.sideDrawerToggleHandler}
+        />
         <SideDrawer
+          isAuth={this.props.isAuthenticated}
           open={this.state.showSideDrawer}
           closed={this.sideDrawerCloseHandler}
         />
@@ -32,4 +38,11 @@ class Layout extends Component {
     );
   }
 }
-export default Layout;
+
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.auth.token !== null,
+  };
+};
+
+export default connect(mapStateToProps)(Layout);
